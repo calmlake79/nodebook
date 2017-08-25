@@ -1,0 +1,23 @@
+<html>
+<body>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+	var socket = io.connect('http://localhost:3000/chat');
+
+	socket.on('connect',()=>{
+		console.log("connect");
+
+		socket.emit('msg','first connect');
+	})
+	.on('msg',(data)=>{
+		console.log( data );
+
+		setTimeout(()=>{
+			console.log( 'Send to Server'+new Date() );
+			socket.emit('msg','Send to Server'+new Date() );
+		},1000);
+	})
+	.on('disconnect',()=>{console.log(1);});
+</script>
+</body>	
+</html>

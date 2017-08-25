@@ -1,0 +1,32 @@
+<html>
+<body>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<textarea style="background-color: #ccc;height: 400px;width: 400px;overflow: hidden;" readonly="true"></textarea>
+<br/>
+<form>
+	<input style="width: 400px;" type="" id="inputbox">
+</form>
+<script>
+	var socket = io.connect('http://localhost:3000/chat');
+
+	socket.on('connect',()=>{
+		console.log("connect");
+	})
+	.on('disconnect',()=>{
+		console.log('disconnect');
+	})
+	.on('msg',(data)=>{
+		$("textarea")
+		.val( $("textarea").val()+"\n"+ data )
+		.scrollTop( $("textarea")[0].scrollHeight );
+	});
+
+	$("form").submit(()=>{
+		socket.emit('msg', $("form input").val() );
+		$("form input").val("");
+		return false;
+	});
+</script>
+</body>	
+</html>
